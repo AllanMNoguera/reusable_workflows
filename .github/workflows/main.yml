@@ -8,43 +8,46 @@ on:
         required: false
         default: 'value'
         type: string
+    secrets:
+      token:
+        required: false
 
 jobs:
-#  release:
-#    # The type of runner that the job will run on
-#    runs-on: ubuntu-20.04
-#
-#    steps:
-#      - name: Checkout
-#        uses: actions/checkout@v2
-#
-#      - name: Fetch all tags
-#        run: |
-#          git config --global user.email "actions@github.com"
-#          git config --global user.name "Github actions"
-#          git fetch --tags --unshallow --prune
-#
-#      - name: Publish release
-#        env:
-#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-#        run: |
-#          latest_tag=v${{github.run_number}}
-#          gh release create $latest_tag --generate-notes
+  release:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-20.04
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        env:
+          GITHUB_TOKEN: ${{ inputs.token || secrets.GITHUB_TOKEN }}
+
+      - name: Publish release
+        env:
+          GITHUB_TOKEN: ${{ inputs.token || secrets.GITHUB_TOKEN }}
+        run: |
+          latest_tag=v${{github.run_number}}
+          gh release create $latest_tag --generate-notes
+
+      - name: View release
+        env:
+          GITHUB_TOKEN: ${{ inputs.token || secrets.GITHUB_TOKEN }}
+        run: |
+          gh release view
 
   publish:
     # The type of runner that the job will run on
     runs-on: ubuntu-20.04
-
+    needs: release
     steps:
       - name: Check out my other private repo
         uses: actions/checkout@master
         with:
           repository: AllanMNoguera/reusable_workflows
-        env: 
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        env:
+          GITHUB_TOKEN: ${{ inputs.token || secrets.GITHUB_TOKEN }}
 
       - name: Project
         run: |
-          ls
-          cd reusable_workflows
           ls
