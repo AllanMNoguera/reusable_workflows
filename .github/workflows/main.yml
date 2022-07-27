@@ -36,12 +36,15 @@ jobs:
     runs-on: ubuntu-20.04
 
     steps:
-      # Checkout Project
-      - name: Checkout
-        run: git clone git@github.com:AllanMNoguera/reusable_workflows.git
+      - name: Check out my other private repo
+        uses: actions/checkout@master
+        with:
+          repository: AllanMNoguera/reusable_workflows
+        env: 
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Project
         run: |
           ls
           cd reusable_workflows
-          ls 
+          ls
