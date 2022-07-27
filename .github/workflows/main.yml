@@ -37,14 +37,11 @@ jobs:
 
     steps:
       # Checkout Project
-#      - name: Checkout
-#        uses: actions/checkout@v2
-#        with:
-#          ref: ${{ github.ref }}
+      - name: Checkout
+        run: git clone git@github.com:AllanMNoguera/reusable_workflows.git
 
       - name: Project
         run: |
-          cat etc/docs/example.txt
           ls
-          cd ..
-          ls
+          cd reusable_workflows
+          ls 
