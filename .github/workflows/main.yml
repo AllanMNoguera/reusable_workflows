@@ -30,6 +30,9 @@ jobs:
           latest_tag=v${{github.run_number}}
           gh release create $latest_tag --generate-notes
 
+      - name: Wait
+        run: sleep 10
+
       - name: View release
         env:
           GITHUB_TOKEN: ${{ inputs.token || secrets.GITHUB_TOKEN }}
