@@ -44,7 +44,7 @@ jobs:
 
       - name: Project
         run: |
-          pwd
+          cat etc/docs/example.txt
           ls
           cd ..
           ls
